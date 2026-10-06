@@ -32,6 +32,9 @@ The current prompts target agencies and communities that organize conferences, f
 4. Via Ollama (`gemma4:31b`) answers strictly **ДА** (YES) or **НЕТ** (NO) — whether the company may need a business photographer.
 5. Writes results back to the sheet (`Limit Text`, relevance flag, site open errors).
 
+<img width="2498" height="680" alt="валидация базы" src="https://github.com/user-attachments/assets/ef7ee39f-6919-436e-98bd-95a770644c82" />
+
+
 ### 2. Message personalization (`Персонализация сообщений`)
 
 1. Takes rows that already have `Limit Text` filled in.
@@ -41,6 +44,9 @@ The current prompts target agencies and communities that organize conferences, f
 5. Updates the corresponding Google Sheets columns.
 
 Recommended order: validation first, then personalization.
+
+<img width="1786" height="822" alt="Персонализация сообщений" src="https://github.com/user-attachments/assets/63956ca2-cb3e-4360-9830-e74db1fea2fc" />
+
 
 ## Requirements
 
