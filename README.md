@@ -1,108 +1,111 @@
-# B2B рассылка — n8n workflows
+# B2B Outreach — n8n Workflows
 
-Набор сценариев [n8n](https://n8n.io) для подготовки холодной B2B-рассылки: фильтрация компаний по релевантности и генерация персонализированных фрагментов писем.
+> Русская версия: [README.ru.md](README.ru.md)
 
-Целевая ниша в текущих промптах — агентства и сообщества, которые организуют конференции, форумы и корпоративные мероприятия (услуга делового фотографа). Промпты можно адаптировать под другую нишу.
+A set of [n8n](https://n8n.io) workflows for cold B2B outreach prep: filtering companies by relevance and generating personalized email fragments.
 
-## Состав проекта
+The current prompts target agencies and communities that organize conferences, forums, and corporate events (business photography services). You can adapt the prompts for another niche.
+
+## Project layout
 
 ```text
 ├── README.md
+├── README.ru.md
 ├── .gitignore
 └── workflows/
     ├── Валидация базы.json
     └── Персонализация сообщений.json
 ```
 
-| Файл | Назначение |
-|------|------------|
-| `workflows/Валидация базы.json` | Загрузка сайтов из Google Sheets, очистка HTML, оценка релевантности через LLM (ДА/НЕТ) |
-| `workflows/Персонализация сообщений.json` | Брендовое название компании, дательный падеж, персональный абзац для письма |
+| File | Purpose |
+|------|---------|
+| `workflows/Валидация базы.json` | Fetch company websites from Google Sheets, clean HTML, score relevance with an LLM (YES/NO) |
+| `workflows/Персонализация сообщений.json` | Brand-friendly company name, dative case form, personalized paragraph for the email |
 
-## Как это работает
+## How it works
 
-### 1. Валидация базы
+### 1. Lead list validation (`Валидация базы`)
 
-1. Читает строки из Google Sheets.
-2. Для каждой компании запрашивает сайт из колонки `Основной сайт`.
-3. Очищает HTML и обрезает текст (`Limit Text`, до ~8000 символов).
-4. Через Ollama (`gemma4:31b`) отвечает строго **ДА** или **НЕТ** — нужна ли компании услуга делового фотографа.
-5. Пишет результаты обратно в таблицу (`Limit Text`, флаг релевантности, ошибки открытия сайта).
+1. Reads rows from Google Sheets.
+2. For each company, requests the site from the `Основной сайт` column.
+3. Cleans HTML and truncates text (`Limit Text`, up to ~8000 characters).
+4. Via Ollama (`gemma4:31b`) answers strictly **ДА** (YES) or **НЕТ** (NO) — whether the company may need a business photographer.
+5. Writes results back to the sheet (`Limit Text`, relevance flag, site open errors).
 
-### 2. Персонализация сообщений
+### 2. Message personalization (`Персонализация сообщений`)
 
-1. Берёт строки с уже заполненным `Limit Text`.
-2. **GigaChat** — чистое общеупотребительное название (без ООО/ЗАО и кавычек).
-3. **GigaChat** — название в дательном падеже для обращения в письме.
-4. **Ollama** — персональный абзац (1–2 предложения, ~120–180 символов) на основе деятельности компании.
-5. Обновляет колонки в Google Sheets.
+1. Takes rows that already have `Limit Text` filled in.
+2. **GigaChat** — clean everyday company name (no LLC/ООО and no quotes).
+3. **GigaChat** — company name in the dative case for email copy.
+4. **Ollama** — personalized paragraph (1–2 sentences, ~120–180 characters) based on company activity.
+5. Updates the corresponding Google Sheets columns.
 
-Рекомендуемый порядок: сначала валидация, затем персонализация.
+Recommended order: validation first, then personalization.
 
-## Требования
+## Requirements
 
-- [n8n](https://docs.n8n.io/hosting/) (self-hosted или cloud)
-- Google Sheets + OAuth2-учётные данные в n8n
-- [Ollama](https://ollama.com/) с моделью `gemma4:31b` (или замените модель в нодах)
-- Community-нода [GigaChat](https://www.npmjs.com/package/n8n-nodes-gigachat) (`n8n-nodes-gigachat`) — только для сценария персонализации
-- LangChain-нода Ollama в n8n (`@n8n/n8n-nodes-langchain`)
+- [n8n](https://docs.n8n.io/hosting/) (self-hosted or cloud)
+- Google Sheets + OAuth2 credentials in n8n
+- [Ollama](https://ollama.com/) with the `gemma4:31b` model (or change the model in the nodes)
+- [GigaChat](https://www.npmjs.com/package/n8n-nodes-gigachat) community node (`n8n-nodes-gigachat`) — personalization workflow only
+- n8n LangChain Ollama node (`@n8n/n8n-nodes-langchain`)
 
-## Быстрый старт
+## Quick start
 
-### 1. Импорт
+### 1. Import
 
-1. Откройте n8n → **Workflows** → **Import from File**.
-2. Импортируйте оба JSON из папки `workflows/`.
+1. Open n8n → **Workflows** → **Import from File**.
+2. Import both JSON files from `workflows/`.
 
-### 2. Подключение credentials
+### 2. Connect credentials
 
-После импорта перепривяжите credentials (в экспорте есть только имена/id, без секретов):
+After import, re-link credentials (the export contains names/ids only, no secrets):
 
-| Credential | Где используется |
-|------------|------------------|
-| Google Sheets OAuth2 | Оба сценария |
-| Ollama API | Оба сценария |
-| GigaChat | Только «Персонализация сообщений» |
+| Credential | Used in |
+|------------|---------|
+| Google Sheets OAuth2 | Both workflows |
+| Ollama API | Both workflows |
+| GigaChat | Personalization only |
 
 ### 3. Google Sheets
 
-В JSON стоят плейсхолдеры — после импорта выберите свой документ и лист в каждой ноде Google Sheets:
+The JSON uses placeholders — after import, pick your own document and sheet in every Google Sheets node:
 
-| Плейсхолдер | Что подставить |
-|-------------|----------------|
-| `YOUR_GOOGLE_SHEETS_DOCUMENT_ID` | ID таблицы из URL (`/d/<ID>/edit`) |
-| `YOUR_SHEET_GID_OR_NAME` / `YOUR_SHEET_NAME` | Лист с данными |
-| `YOUR_SPREADSHEET_NAME` | Отображаемое имя таблицы (опционально) |
+| Placeholder | What to set |
+|-------------|-------------|
+| `YOUR_GOOGLE_SHEETS_DOCUMENT_ID` | Spreadsheet ID from the URL (`/d/<ID>/edit`) |
+| `YOUR_SHEET_GID_OR_NAME` / `YOUR_SHEET_NAME` | Worksheet with your data |
+| `YOUR_SPREADSHEET_NAME` | Display name of the spreadsheet (optional) |
 
-Ожидаемые колонки (имена важны — по ним идут маппинги):
+Expected columns (names matter — mappings depend on them):
 
-| Колонка | Роль |
-|---------|------|
-| `Наименование` | Ключ строки (matching column) |
-| `Основной сайт` | URL для валидации |
-| `Limit Text` | Очищенный текст сайта / контекст для LLM |
-| `Подходит ли компания, да/нет` | Результат валидации |
-| `Ошибка в открытии сайта` | Ошибки HTTP |
-| `Общеупотребительное название компании` | Бренд без ОПФ |
-| `Название компании в дательном падеже` | Для текстовок письма |
-| `Персонализированный параграф` | Готовый абзац персонализации |
+| Column | Role |
+|--------|------|
+| `Наименование` | Row key (matching column) |
+| `Основной сайт` | URL used for validation |
+| `Limit Text` | Cleaned site text / LLM context |
+| `Подходит ли компания, да/нет` | Validation result |
+| `Ошибка в открытии сайта` | HTTP / open errors |
+| `Общеупотребительное название компании` | Brand name without legal form |
+| `Название компании в дательном падеже` | Form used in email copy |
+| `Персонализированный параграф` | Ready personalization paragraph |
 
-Дополнительные колонки (почта, телефоны, директор и т.д.) могут присутствовать в таблице — сценарии их не обязательно заполняют.
+Extra columns (email, phone, director, etc.) may exist in the sheet — the workflows do not necessarily fill them.
 
-### 4. Запуск
+### 4. Run
 
-Оба workflow запускаются вручную (**Execute workflow**). Обработка идёт батчами с паузой (`Wait`), чтобы не перегружать LLM и сайты.
+Both workflows are started manually (**Execute workflow**). Processing runs in batches with a `Wait` pause to avoid overloading the LLM and target sites.
 
-## Адаптация под свою нишу
+## Adapting to your niche
 
-- Измените текст промпта в ноде `Message a model_cloud` в «Валидация базы» (критерий ДА/НЕТ).
-- Измените промпт персонального абзаца в «Персонализация сообщений».
-- При необходимости замените модель Ollama / GigaChat в параметрах нод.
+- Edit the prompt in the `Message a model_cloud` node in the validation workflow (YES/NO criterion).
+- Edit the personalized-paragraph prompt in the personalization workflow.
+- Swap the Ollama / GigaChat model in node parameters if needed.
 
-## Безопасность
+## Security
 
-В JSON **нет** паролей и API-ключей. ID Google Sheets заменены на плейсхолдеры. После импорта перепривяжите credentials в n8n; секреты храните только в Credentials / `.env` (не коммитьте).
+The JSON files contain **no** passwords or API keys. Google Sheets IDs are replaced with placeholders. After import, re-bind credentials in n8n; keep secrets only in Credentials / `.env` (do not commit them).
 
-## Лицензия
+## License
 
-Код сценариев можно использовать и модифицировать под свои задачи. При необходимости добавьте файл `LICENSE` (MIT, Apache-2.0 и т.п.).
+You may use and modify these workflows for your own projects. Add a `LICENSE` file if needed (MIT, Apache-2.0, etc.).
