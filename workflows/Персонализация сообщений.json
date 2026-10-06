@@ -1,0 +1,1409 @@
+{
+  "name": "Персонализация сообщений",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        48
+      ],
+      "id": "20dab1d6-4be9-4c08-a1ee-d80c2d7ed0b2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "mode": "list",
+          "cachedResultName": "Выгрузка (783)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 485087487,
+          "mode": "list",
+          "cachedResultName": "final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=485087487"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -672,
+        48
+      ],
+      "id": "a4337fa4-9185-405f-8399-3c758f841c68",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Khrm7XKPulM6eVX4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "#### 1. Название компании",
+        "height": 416,
+        "width": 918
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "59f90dbc-72a2-4590-874e-46548db19c02",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "modelId": "=GigaChat-2-Max",
+        "prompt": "\n",
+        "options": {
+          "systemMessage": "=Твоя задача — извлечь чистое название компании из текста {{ $json['Limit Text'] }}.\n\nТребования к результату:\n\nВерни только название компании\nУбери организационно-правовую форму: ООО, ЗАО, ПАО, ИП, Ltd, LLC, Inc и т.д.\nУбери кавычки («», \"\", ‘’)\nНе добавляй ничего лишнего (ни пояснений, ни текста)\nСохрани оригинальный язык названия\n\nПравила очистки:\n\n\"ООО «Ромашка»\" → Ромашка\n\"ЗАО \"ТехноПром\"\" → ТехноПром\n\"Romashka LLC\" → Romashka\n\"АО Альфа-Банк\" → Альфа-Банк\n\nЕсли найдено несколько вариантов:\n\nВыбери наиболее короткое и используемое в брендинге\nИгнорируй юридически длинные формы\n\nПримеры:\n\nВход:\nООО «Ромашка» — производство мебели\nВыход:\nРомашка\n\nВход:\nTechNova LLC | Software Solutions\nВыход:\nTechNova\n\nФормат ответа:\nТолько название компании, одной строкой, без пояснений."
+        }
+      },
+      "type": "n8n-nodes-gigachat.gigaChat",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        16
+      ],
+      "id": "28d060de-d1b2-440c-8b40-3a8c53c33b5f",
+      "name": "GigaChat_Название компании",
+      "credentials": {
+        "gigaChatApi": {
+          "id": "lFVCicel11ERvTBc",
+          "name": "GigaChat account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "mode": "list",
+          "cachedResultName": "Выгрузка (783)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1973369954,
+          "mode": "list",
+          "cachedResultName": "Строки 1-218 (без limit text)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=1973369954"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Наименование": "={{ $('Loop Over Items').item.json['Наименование'] }}",
+            "Персонализированный параграф": "={{ $json.response }}"
+          },
+          "matchingColumns": [
+            "Наименование"
+          ],
+          "schema": [
+            {
+              "id": "Наименование",
+              "displayName": "Наименование",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Общеупотребительное название компании",
+              "displayName": "Общеупотребительное название компании",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Название компании в дательном падеже",
+              "displayName": "Название компании в дательном падеже",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Статус",
+              "displayName": "Статус",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Подходит ли компания, да/нет",
+              "displayName": "Подходит ли компания, да/нет",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Limit Text",
+              "displayName": "Limit Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Персонализированный параграф",
+              "displayName": "Персонализированный параграф",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основная почта",
+              "displayName": "Основная почта",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность основной почты",
+              "displayName": "Должность основной почты",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. почта 1",
+              "displayName": "Доп. почта 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность доп. почты 1",
+              "displayName": "Должность доп. почты 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. почта 2",
+              "displayName": "Доп. почта 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность доп. почты 2",
+              "displayName": "Должность доп. почты 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. почта 3",
+              "displayName": "Доп. почта 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность доп. почты 3",
+              "displayName": "Должность доп. почты 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Основной сайт",
+              "displayName": "Основной сайт",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ошибка в открытии сайта",
+              "displayName": "Ошибка в открытии сайта",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. сайт 1",
+              "displayName": "Доп. сайт 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. сайт 2",
+              "displayName": "Доп. сайт 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. сайт 3",
+              "displayName": "Доп. сайт 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Основной телефон",
+              "displayName": "Основной телефон",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность основного телефона",
+              "displayName": "Должность основного телефона",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. телефон 1",
+              "displayName": "Доп. телефон 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность доп. телефона 1",
+              "displayName": "Должность доп. телефона 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. телефон 2",
+              "displayName": "Доп. телефон 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность доп. телефона 2",
+              "displayName": "Должность доп. телефона 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Доп. телефон 3",
+              "displayName": "Доп. телефон 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность доп. телефона 3",
+              "displayName": "Должность доп. телефона 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Учредители",
+              "displayName": "Учредители",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ФИО директора",
+              "displayName": "ФИО директора",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Должность руководителя",
+              "displayName": "Должность руководителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Пол руководителя",
+              "displayName": "Пол руководителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        512
+      ],
+      "id": "2efb7d68-253c-4510-96d8-a9ed9def0dae",
+      "name": "Update Персональный параграф",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Khrm7XKPulM6eVX4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "#### 2. Персональный параграф",
+        "height": 336,
+        "width": 966
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "122acf32-8a91-4b3f-950c-5480ea64b19e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "modelId": "=GigaChat-2-Max",
+        "prompt": "=Задача: проверить текст {{$json.content}} \nКритерии проверки: \n1. Связаность текста, текст звучит естественно и органично. \n2. Нет ошибок в грамматике, орфографике, синтаксисе. Помни, что слова \"наверняка\", \"видимо\", возможно\" выделяются запятыми.\n3. Нет пустых переносов строк \\n\n4. Нет лишних пробелов.\n5. Звучит как начало продающего письма: указана деятельность компани.\n6. 120-180 символов.\n7. Нет комментариев, только персонализированный текст, который можно сразу вставить в тело письма.\n8. Если несколько вариантов, выбери один.\n\nОтредактируй текст при необходимости и верни в ответе. Только текст без комментариев.",
+        "options": {
+          "systemMessage": "=Ты опытный копирайтер писем для email рассылок. Ты строго проверяешь тексты на наличие грамматических и орфографических ошибок. Строго проверяешь наличие запятых."
+        }
+      },
+      "type": "n8n-nodes-gigachat.gigaChat",
+      "typeVersion": 1,
+      "position": [
+        112,
+        512
+      ],
+      "id": "16f5b913-3d76-4008-b02c-a765193d68d0",
+      "name": "GigaChat_Check_Summary",
+      "credentials": {
+        "gigaChatApi": {
+          "id": "lFVCicel11ERvTBc",
+          "name": "GigaChat account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": "=GigaChat-2-Max",
+        "prompt": "=Просклоняй название компании в дательный падеж \n {{ $json['Общеупотребительное название компании'] }}\n\nЕсли название на английском, то склонять не нужно.\nНормализуй название: если все буквы прописными, то напиши только первую букву прописной.\nВ ответе пиши только название в дательном падеже, без комментариев.",
+        "options": {
+          "systemMessage": "=Ты эксперт по русскому языку"
+        }
+      },
+      "type": "n8n-nodes-gigachat.gigaChat",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        208
+      ],
+      "id": "2c87b1e3-c69a-466e-b636-859c089d2c9a",
+      "name": "GigaChat_Дательный падеж",
+      "credentials": {
+        "gigaChatApi": {
+          "id": "lFVCicel11ERvTBc",
+          "name": "GigaChat account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -464,
+        48
+      ],
+      "id": "293070f8-ac74-4fba-92a1-ce197743b203",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gemma4:31b",
+          "mode": "list",
+          "cachedResultName": "gemma4:31b"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Задача: кратко описать деятельность компании для персонализации холодного письма.\n\nТребования:\n- 1–2 предложения\n- 120–180 символов\n- без воды\n\nАдаптируй саммари под естественный текст письма. Например: Вижу, что ваша компания занимается организацией масштабных мероприятий и оказывает услуги в области дизайна и маркетинга.\nЕсли у компании разные виды деятельности, выдели только то, что связано с организацией мероприятий, проведением бизнес-событий. Информация о компании: {{$json['Limit Text']}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        -192,
+        512
+      ],
+      "id": "17eada85-1766-4eb8-b1fd-1aba11831c0c",
+      "name": "Message a model_cloud",
+      "credentials": {
+        "ollamaApi": {
+          "id": "HyQkyxydbq9P43i8",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        208
+      ],
+      "id": "70e3599c-6e20-4c9e-a4a9-be62a95745da",
+      "name": "Wait",
+      "webhookId": "e4070bfb-19bc-4256-9ad2-807d75f01642"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "mode": "list",
+          "cachedResultName": "Выгрузка (783)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 485087487,
+          "mode": "list",
+          "cachedResultName": "Обработано в n8n (с параграф)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=485087487"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Наименование": "={{ $('Loop Over Items').item.json['Наименование'] }}",
+            "Общеупотребительное название компании": "={{ $json.response }}"
+          },
+          "matchingColumns": [
+            "Наименование"
+          ],
+          "schema": [
+            {
+              "id": "Наименование",
+              "displayName": "Наименование",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Общеупотребительное название компании",
+              "displayName": "Общеупотребительное название компании",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Название компании в дательном падеже",
+              "displayName": "Название компании в дательном падеже",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Статус",
+              "displayName": "Статус",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Подходит ли компания, да/нет",
+              "displayName": "Подходит ли компания, да/нет",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Limit Text",
+              "displayName": "Limit Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Персонализированный параграф",
+              "displayName": "Персонализированный параграф",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основная почта",
+              "displayName": "Основная почта",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность основной почты",
+              "displayName": "Должность основной почты",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. почта 1",
+              "displayName": "Доп. почта 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. почты 1",
+              "displayName": "Должность доп. почты 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. почта 2",
+              "displayName": "Доп. почта 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. почты 2",
+              "displayName": "Должность доп. почты 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. почта 3",
+              "displayName": "Доп. почта 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. почты 3",
+              "displayName": "Должность доп. почты 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основной сайт",
+              "displayName": "Основной сайт",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ошибка в открытии сайта",
+              "displayName": "Ошибка в открытии сайта",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. сайт 1",
+              "displayName": "Доп. сайт 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. сайт 2",
+              "displayName": "Доп. сайт 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. сайт 3",
+              "displayName": "Доп. сайт 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основной телефон",
+              "displayName": "Основной телефон",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность основного телефона",
+              "displayName": "Должность основного телефона",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. телефон 1",
+              "displayName": "Доп. телефон 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. телефона 1",
+              "displayName": "Должность доп. телефона 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. телефон 2",
+              "displayName": "Доп. телефон 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. телефона 2",
+              "displayName": "Должность доп. телефона 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. телефон 3",
+              "displayName": "Доп. телефон 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. телефона 3",
+              "displayName": "Должность доп. телефона 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Учредители",
+              "displayName": "Учредители",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ФИО директора",
+              "displayName": "ФИО директора",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность руководителя",
+              "displayName": "Должность руководителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Пол руководителя",
+              "displayName": "Пол руководителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        240,
+        16
+      ],
+      "id": "072688af-c864-4770-b895-f0520e33179f",
+      "name": "Общеупотреб название",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Khrm7XKPulM6eVX4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "mode": "list",
+          "cachedResultName": "Выгрузка (783)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 485087487,
+          "mode": "list",
+          "cachedResultName": "final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=485087487"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Наименование": "={{ $('Loop Over Items').item.json['Наименование'] }}",
+            "Название компании в дательном падеже": "={{ $json.response }}"
+          },
+          "matchingColumns": [
+            "Наименование"
+          ],
+          "schema": [
+            {
+              "id": "Наименование",
+              "displayName": "Наименование",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Общеупотребительное название компании",
+              "displayName": "Общеупотребительное название компании",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Название компании в дательном падеже",
+              "displayName": "Название компании в дательном падеже",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Статус",
+              "displayName": "Статус",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Подходит ли компания, да/нет",
+              "displayName": "Подходит ли компания, да/нет",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Limit Text",
+              "displayName": "Limit Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Персонализированный параграф",
+              "displayName": "Персонализированный параграф",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основная почта",
+              "displayName": "Основная почта",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность основной почты",
+              "displayName": "Должность основной почты",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. почта 1",
+              "displayName": "Доп. почта 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. почты 1",
+              "displayName": "Должность доп. почты 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. почта 2",
+              "displayName": "Доп. почта 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. почты 2",
+              "displayName": "Должность доп. почты 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. почта 3",
+              "displayName": "Доп. почта 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. почты 3",
+              "displayName": "Должность доп. почты 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основной сайт",
+              "displayName": "Основной сайт",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ошибка в открытии сайта",
+              "displayName": "Ошибка в открытии сайта",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. сайт 1",
+              "displayName": "Доп. сайт 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. сайт 2",
+              "displayName": "Доп. сайт 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. сайт 3",
+              "displayName": "Доп. сайт 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Основной телефон",
+              "displayName": "Основной телефон",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность основного телефона",
+              "displayName": "Должность основного телефона",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. телефон 1",
+              "displayName": "Доп. телефон 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. телефона 1",
+              "displayName": "Должность доп. телефона 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. телефон 2",
+              "displayName": "Доп. телефон 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. телефона 2",
+              "displayName": "Должность доп. телефона 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Доп. телефон 3",
+              "displayName": "Доп. телефон 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность доп. телефона 3",
+              "displayName": "Должность доп. телефона 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Учредители",
+              "displayName": "Учредители",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ФИО директора",
+              "displayName": "ФИО директора",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Должность руководителя",
+              "displayName": "Должность руководителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Пол руководителя",
+              "displayName": "Пол руководителя",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        192,
+        208
+      ],
+      "id": "26ac8630-0bdf-40f7-9449-da9ae54d3dc8",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Khrm7XKPulM6eVX4",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GigaChat_Название компании": {
+      "main": [
+        [
+          {
+            "node": "Общеупотреб название",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GigaChat_Check_Summary": {
+      "main": [
+        [
+          {
+            "node": "Update Персональный параграф",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GigaChat_Дательный падеж": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "GigaChat_Дательный падеж",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Персональный параграф": {
+      "main": [
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model_cloud": {
+      "main": [
+        [
+          {
+            "node": "GigaChat_Check_Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Общеупотреб название": {
+      "main": [
+        []
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "cfca0fea-7e47-45a3-a2d1-265087a7d687",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e1e5aea580c34bb11104e70a869877654560ebd87e75ba3fb704d1fa2e7be700"
+  },
+  "nodeGroups": [],
+  "id": "oFgdEzKOVDvzx0Pw",
+  "tags": []
+}
