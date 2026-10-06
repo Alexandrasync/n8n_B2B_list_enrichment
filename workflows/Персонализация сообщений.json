@@ -16,17 +16,17 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "value": "YOUR_GOOGLE_SHEETS_DOCUMENT_ID",
           "mode": "list",
-          "cachedResultName": "Выгрузка (783)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+          "cachedResultName": "YOUR_SPREADSHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "sheetName": {
           "__rl": true,
-          "value": 485087487,
+          "value": "YOUR_SHEET_GID_OR_NAME",
           "mode": "list",
-          "cachedResultName": "final",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=485087487"
+          "cachedResultName": "YOUR_SHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "options": {}
       },
@@ -88,17 +88,17 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "value": "YOUR_GOOGLE_SHEETS_DOCUMENT_ID",
           "mode": "list",
-          "cachedResultName": "Выгрузка (783)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+          "cachedResultName": "YOUR_SPREADSHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "sheetName": {
           "__rl": true,
-          "value": 1973369954,
+          "value": "YOUR_SHEET_GID_OR_NAME",
           "mode": "list",
-          "cachedResultName": "Строки 1-218 (без limit text)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=1973369954"
+          "cachedResultName": "YOUR_SHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -586,17 +586,17 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "value": "YOUR_GOOGLE_SHEETS_DOCUMENT_ID",
           "mode": "list",
-          "cachedResultName": "Выгрузка (783)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+          "cachedResultName": "YOUR_SPREADSHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "sheetName": {
           "__rl": true,
-          "value": 485087487,
+          "value": "YOUR_SHEET_GID_OR_NAME",
           "mode": "list",
-          "cachedResultName": "Обработано в n8n (с параграф)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=485087487"
+          "cachedResultName": "YOUR_SHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -934,17 +934,17 @@
         "operation": "update",
         "documentId": {
           "__rl": true,
-          "value": "1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0",
+          "value": "YOUR_GOOGLE_SHEETS_DOCUMENT_ID",
           "mode": "list",
-          "cachedResultName": "Выгрузка (783)",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit?usp=drivesdk"
+          "cachedResultName": "YOUR_SPREADSHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "sheetName": {
           "__rl": true,
-          "value": 485087487,
+          "value": "YOUR_SHEET_GID_OR_NAME",
           "mode": "list",
-          "cachedResultName": "final",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B3cDChqQ2N1ecox4x1lEZPEe9gRCDAIYjbigLUAmMj0/edit#gid=485087487"
+          "cachedResultName": "YOUR_SHEET_NAME",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_DOCUMENT_ID/edit"
         },
         "columns": {
           "mappingMode": "defineBelow",

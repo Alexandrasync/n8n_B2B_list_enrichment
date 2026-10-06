@@ -66,7 +66,13 @@
 
 ### 3. Google Sheets
 
-В нодах Google Sheets укажите **свой** документ и лист. В экспорте зашит конкретный spreadsheet id — его нужно заменить.
+В JSON стоят плейсхолдеры — после импорта выберите свой документ и лист в каждой ноде Google Sheets:
+
+| Плейсхолдер | Что подставить |
+|-------------|----------------|
+| `YOUR_GOOGLE_SHEETS_DOCUMENT_ID` | ID таблицы из URL (`/d/<ID>/edit`) |
+| `YOUR_SHEET_GID_OR_NAME` / `YOUR_SHEET_NAME` | Лист с данными |
+| `YOUR_SPREADSHEET_NAME` | Отображаемое имя таблицы (опционально) |
 
 Ожидаемые колонки (имена важны — по ним идут маппинги):
 
@@ -93,32 +99,10 @@
 - Измените промпт персонального абзаца в «Персонализация сообщений».
 - При необходимости замените модель Ollama / GigaChat в параметрах нод.
 
-## Безопасность перед публикацией репозитория
+## Безопасность
 
-В JSON **нет** паролей и API-ключей, но есть:
-
-- id credentials вашей инстанции n8n;
-- id Google Spreadsheet и имена листов.
-
-Перед публичным репозиторием замените document/sheet id на свои плейсхолдеры или оставьте приватный репозиторий. Секреты храните только в n8n Credentials / переменных окружения — не коммитьте `.env` и `credentials.json`.
-
-## Публикация на GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: n8n workflows for B2B outreach"
-gh repo create b2b-n8n-outreach --private --source=. --remote=origin --push
-```
-
-Или создайте репозиторий на github.com и выполните:
-
-```bash
-git remote add origin https://github.com/<user>/<repo>.git
-git branch -M main
-git push -u origin main
-```
+В JSON **нет** паролей и API-ключей. ID Google Sheets заменены на плейсхолдеры. После импорта перепривяжите credentials в n8n; секреты храните только в Credentials / `.env` (не коммитьте).
 
 ## Лицензия
 
-Код сценариев можно использовать и модифицировать под свои задачи. При публикации укажите удобную вам лицензию (MIT, Apache-2.0 и т.п.).
+Код сценариев можно использовать и модифицировать под свои задачи. При необходимости добавьте файл `LICENSE` (MIT, Apache-2.0 и т.п.).
